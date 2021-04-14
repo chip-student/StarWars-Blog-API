@@ -46,7 +46,7 @@ def get_all_user():
 def get_user_fav(id):
 
     # get only the ones id
-    favorite_query = Favorite.query.filter_by(id=id)
+    favorite_query = Favorite.query.filter_by(iduser=id)
     # join_query = db.session.query(Favorite, People).join(People).filter(Favorite.iduser == id).all()
 
     favorite_query = list(map(lambda x: x.serialize(), favorite_query))
