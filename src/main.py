@@ -2,13 +2,13 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, json
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Character, Planet, Favplanet, Favcharacter
+from models import db, User, People, Planets, Favorite
 #from models import Person
 
 app = Flask(__name__)
@@ -45,60 +45,58 @@ def get_all_user():
 @app.route('/userfav/<int:id>', methods=['GET'])
 def get_user_fav(id):
 
-     # get only the ones id
+    # get only the ones id
+    favorite_query = Favorite.query.filter_by(id=id)
+    # join_query = db.session.query(Favorite, People).join(People).filter(Favorite.iduser == id).all()
 
-    # Favplanet, Favcharacter
-    personaje_query = db.Query(Favplanet, Favcharacter).join()
+    favorite_query = list(map(lambda x: x.serialize(), favorite_query))
 
-    # map the results and your list of people  inside of the all_people variable
-    all_personajes = list(map(lambda x: x.serialize(), personaje_query))
-
-    return jsonify(all_personajes), 200
+    return jsonify(favorite_query), 200
     
 
-@app.route('/all_personajes', methods=['GET'])
-def get_all_personaje():
+@app.route('/people', methods=['GET'])
+def get_all_people():
 
     # get all the people
-    personaje_query = Personaje.query.all()
+    people_query = People.query.all()
 
     # map the results and your list of people  inside of the all_people variable
-    all_personajes = list(map(lambda x: x.serialize(), personaje_query))
+    all_people = list(map(lambda x: x.serialize(), people_query))
 
-    return jsonify(all_personajes), 200
+    return jsonify(all_people), 200
 
-@app.route('/personajes/<int:id>', methods=['GET'])
-def get_personaje_id(id):
+@app.route('/people/<int:id>', methods=['GET'])
+def get_people_id(id):
 
     # get only the ones id
-    personaje_query = Personaje.query.filter_by(id=id)
+    people_query = People.query.filter_by(id=id)
 
     # map the results and your list of people  inside of the all_people variable
-    all_personajes = list(map(lambda x: x.serialize(), personaje_query))
+    all_people = list(map(lambda x: x.serialize(), people_query))
 
-    return jsonify(all_personajes), 200
+    return jsonify(all_people), 200
 
-@app.route('/all_planetas', methods=['GET'])
-def get_all_planetas():
+@app.route('/planets', methods=['GET'])
+def get_all_planets():
 
-    # get all the people
-    planeta_query = Planeta.query.all()
+    # get all the planet
+    planet_query = Planets.query.all()
 
-    # map the results and your list of people  inside of the all_people variable
-    all_planetas = list(map(lambda x: x.serialize(), planeta_query))
+    # map the results and your list of planet  inside of the all_planet variable
+    all_planets = list(map(lambda x: x.serialize(), planet_query))
 
-    return jsonify(all_planetas), 200
+    return jsonify(all_planets), 200
 
-@app.route('/planetas/<int:id>', methods=['GET'])
-def get_planeta_id(id):
+@app.route('/planets/<int:id>', methods=['GET'])
+def get_planet_id(id):
 
     # get only the ones id
-    planeta_query = Planeta.query.filter_by(id=id)
+    planet_query = Planets.query.filter_by(id=id)
 
     # map the results and your list of people  inside of the all_people variable
-    all_planetas = list(map(lambda x: x.serialize(), planeta_query))
+    all_planets = list(map(lambda x: x.serialize(), planet_query))
 
-    return jsonify(all_planetas), 200
+    return jsonify(all_planets), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
