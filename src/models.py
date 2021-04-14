@@ -42,10 +42,17 @@ class People(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "gender": self.gender,
-            "hair_color": self.hair_color,
-            "eye_color": self.eye_color,
-            # do not serialize the password, its a security breach
+            "height": self.height,
+            "mass" : self.mass,
+            "hair_color" : self.hair_color,
+            "skin_color" : self.skin_color,
+            "eye_color" : self.eye_color,
+            "birth_year" : self.birth_year,
+            "gender" : self.gender,
+            "created" : self.created,
+            "edited" : self.edited,
+            "homeworld" : self.homeworld,
+            "url" : self.url,
         }
 
 class Planets(db.Model):
@@ -71,11 +78,20 @@ class Planets(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "population": self.population,
-            "terrain": self.terrain,
+            "diameter":self.diameter,
+            "rotation_period":self.rotation_period,
+            "orbital_period":self.orbital_period,
+            "gravity":self.gravity,
+            "population":self.population,
+            "climate":self.climate,
+            "terrain":self.terrain,
+            "surface_water":self.surface_water,
+            "created":self.created,
+            "edited":self.edited,
+            "url":self.url,
         }
 
-class Favorite(db.Model):
+class Favorites(db.Model):
     __tablename__ = 'favorite'
     id= db.Column(db.Integer, primary_key=True)
     idpeople = db.Column(db.Integer, db.ForeignKey('people.id'))
