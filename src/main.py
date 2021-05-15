@@ -132,7 +132,7 @@ def add_fav(id):
 
 # [DELETE] /favorite/<int:favorite_id>Delete favorite with the id = favorite_id
 @app.route('/deleteuserfav/<int:favorite_id>', methods=['DELETE'])
-def delete_fav(id):
+def delete_fav(favorite_id):
 
     # get only the ones named "Joe"
     favorite_query = Favorites.query.filter_by(id=favorite_id)
